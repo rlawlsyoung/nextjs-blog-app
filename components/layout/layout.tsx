@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import MainNavigation from "./main-navigation";
+
 interface Props {
   children: ReactNode;
 }
