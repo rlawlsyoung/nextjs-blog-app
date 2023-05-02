@@ -1,5 +1,10 @@
 const HomePage = () => {
-  return <>dd</>;
+  return (
+    <>
+      <Hero />
+      <FeaturedPosts />
+    </>
+  );
 };
 
 export default HomePage;
