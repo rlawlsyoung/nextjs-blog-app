@@ -1,39 +1,29 @@
 import AllPosts from "@/components/posts/all-posts";
 import { PostType } from "..";
+import { getAllPosts } from "@/helpers/posts-util";
+import { GetStaticProps } from "next";
 
-const DUMMY_POSTS: PostType[] = [
-  {
-    title: "Next JS 기초1",
-    image: "next-js-기초.png",
-    excerpt:
-      "Next.js는 React 프레임워크입니다. SSR과 풀스택 개발 등 다양한 기능을 지원합니다.",
-    date: "2023-05-04",
-    slug: "next-js-기초1",
-  },
-  {
-    title: "Next JS 기초2",
-    image: "next-js-기초.png",
-    excerpt:
-      "Next.js는 React 프레임워크입니다. SSR과 풀스택 개발 등 다양한 기능을 지원합니다.",
-    date: "2023-05-04",
-    slug: "next-js-기초2",
-  },
-  {
-    title: "Next JS 기초3",
-    image: "next-js-기초.png",
-    excerpt:
-      "Next.js는 React 프레임워크입니다. SSR과 풀스택 개발 등 다양한 기능을 지원합니다.",
-    date: "2023-05-04",
-    slug: "next-js-기초3",
-  },
-];
+interface Props {
+  posts: PostType[];
+}
 
-const AllPostsPage = () => {
+const AllPostsPage: React.FC<Props> = ({ posts }) => {
   return (
     <>
-      <AllPosts posts={DUMMY_POSTS} />
+      <AllPosts posts={posts} />
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = () => {
+  const allPosts = getAllPosts();
+
+  return {
+    props: {
+      posts: allPosts,
+    },
+    revalidate: 1800,
+  };
 };
 
 export default AllPostsPage;
