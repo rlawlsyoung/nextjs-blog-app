@@ -1,11 +1,14 @@
 import PostContent from "@/components/posts/post-detail/post-content";
-import { getPostData } from "@/helpers/posts-util";
+import { getPostData, getPostFiles } from "@/helpers/posts-util";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { PostType } from "..";
 
-const PostDetailPage = ({ slug }: { slug: string }) => {
-  console.log(slug);
+interface Props {
+  post: PostType;
+}
 
-  return <PostContent />;
+const PostDetailPage: React.FC<Props> = ({ post }) => {
+  return <PostContent post={post} />;
 };
 
 export const getStaticProps: GetStaticProps = (context) => {
@@ -21,8 +24,11 @@ export const getStaticProps: GetStaticProps = (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = () => {
+  const postFilenames = getPostFiles();
+  const slugs = postFilenames.map((fileName) => fileName.replace(/\.md$/, ""));
+
   return {
-    paths: [],
+    paths: slugs.map((slug) => ({ params: { slug: slug } })),
     fallback: false,
   };
 };

@@ -2,24 +2,18 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 import PostHeader from "./post-header";
 import classes from "./post-content.module.css";
+import { PostType } from "@/pages";
 
-const DUMMY_POST = {
-  title: "Next JS 기초1",
-  image: "next-js-기초.png",
-  excerpt:
-    "Next.js는 React 프레임워크입니다. SSR과 풀스택 개발 등 다양한 기능을 지원합니다.",
-  date: "2023-05-04",
-  slug: "next-js-기초1",
-  content: "# This is a first post ",
-};
-
-const PostContent = () => {
-  const imagePath = `/images/posts/${DUMMY_POST.slug}/${DUMMY_POST.image}`;
+interface Props {
+  post: PostType;
+}
+const PostContent: React.FC<Props> = ({ post }) => {
+  const imagePath = `/images/posts/${post.slug}/${post.image}`;
 
   return (
     <article className={classes.content}>
-      <PostHeader title={DUMMY_POST.title} image={imagePath} />{" "}
-      <ReactMarkdown>{DUMMY_POST.content}</ReactMarkdown>
+      <PostHeader title={post.title} image={imagePath} />{" "}
+      <ReactMarkdown>{post.content}</ReactMarkdown>
     </article>
   );
 };
