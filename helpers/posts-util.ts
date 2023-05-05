@@ -6,12 +6,16 @@ import { PostType } from "@/pages";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 
-const getPostData = (fileName: string) => {
-  const filePath = path.join(postsDirectory, fileName);
+export const getPostFiles = () => {
+  return fs.readdirSync(postsDirectory);
+};
+
+export const getPostData = (postIdentifier: string | string[] | undefined) => {
+  const postSlug = postIdentifier;
+  const filePath = path.join(postsDirectory, `${postSlug}.md`);
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
 
-  const postSlug = fileName.replace(/\.md$/, ""); // 파일 확장자명 삭제
   const { title, image, excerpt, date, isFeatured } = data;
 
   const postData: PostType = {
@@ -28,7 +32,7 @@ const getPostData = (fileName: string) => {
 };
 
 export const getAllPosts = () => {
-  const postFiles = fs.readdirSync(postsDirectory);
+  const postFiles = getPostFiles();
 
   const allPosts = postFiles.map((postFile) => {
     return getPostData(postFile);

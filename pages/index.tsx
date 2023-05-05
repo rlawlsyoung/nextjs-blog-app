@@ -10,7 +10,7 @@ export interface PostType {
   image: string;
   excerpt: string;
   date: string;
-  slug: string;
+  slug: string | string[] | undefined;
   content?: string;
   isFeatured?: boolean;
 }
