@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { Prism } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import PostHeader from "./post-header";
 import classes from "./post-content.module.css";
@@ -22,6 +24,12 @@ const PostContent: React.FC<Props> = ({ post }) => {
           height={450}
         />
       );
+    },
+
+    code(code: any) {
+      const { className, children } = code;
+      const language = className.split("-")[1];
+      return <Prism style={atomDark} language={language} children={children} />;
     },
   };
 
