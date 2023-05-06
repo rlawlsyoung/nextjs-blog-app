@@ -13,7 +13,7 @@ const PostContent: React.FC<Props> = ({ post }) => {
   return (
     <article className={classes.content}>
       <PostHeader title={post.title} image={imagePath} />{" "}
-      <ReactMarkdown>{post.content}</ReactMarkdown>
+      <ReactMarkdown>{post.content!}</ReactMarkdown>
     </article>
   );
 };

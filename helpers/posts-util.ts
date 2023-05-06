@@ -35,7 +35,7 @@ export const getAllPosts = () => {
   const postFiles = getPostFiles();
 
   const allPosts = postFiles.map((postFile) => {
-    return getPostData(postFile);
+    return getPostData(postFile.replace(/\.md$/, ""));
   });
 
   const sortedPosts = allPosts.sort((postA, postB) =>
