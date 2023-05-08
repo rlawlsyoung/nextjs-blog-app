@@ -1,7 +1,9 @@
+import Head from "next/head";
+import { GetStaticProps } from "next";
+
 import AllPosts from "@/components/posts/all-posts";
 import { PostType } from "..";
 import { getAllPosts } from "@/helpers/posts-util";
-import { GetStaticProps } from "next";
 
 interface Props {
   posts: PostType[];
@@ -10,6 +12,10 @@ interface Props {
 const AllPostsPage: React.FC<Props> = ({ posts }) => {
   return (
     <>
+      <Head>
+        <title>All Posts</title>
+        <meta name="description" content="포스트 전체 보기 페이지입니다." />
+      </Head>
       <AllPosts posts={posts} />
     </>
   );

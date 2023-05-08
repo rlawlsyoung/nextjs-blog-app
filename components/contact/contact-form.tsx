@@ -58,9 +58,9 @@ const ContactForm = () => {
     }
   };
 
-  emailRef.current!.value = "";
-  nameRef.current!.value = "";
-  messageRef.current!.value = "";
+  // emailRef.current!.value = "";
+  // nameRef.current!.value = "";
+  // messageRef.current!.value = "";
 
   let notification;
 
