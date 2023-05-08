@@ -38,6 +38,14 @@ const ContactForm = () => {
     }
   }, [requestStatus]);
 
+  const resetInput = () => {
+    if (emailRef.current) {
+      emailRef.current!.value = "";
+      nameRef.current!.value = "";
+      messageRef.current!.value = "";
+    }
+  };
+
   const sendMessageHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -58,9 +66,7 @@ const ContactForm = () => {
     }
   };
 
-  // emailRef.current!.value = "";
-  // nameRef.current!.value = "";
-  // messageRef.current!.value = "";
+  resetInput();
 
   let notification;
 
