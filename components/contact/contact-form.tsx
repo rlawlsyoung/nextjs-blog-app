@@ -22,7 +22,7 @@ const ContactForm = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    }).then;
   };
 
   return (
