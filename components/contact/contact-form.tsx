@@ -1,30 +1,90 @@
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
+import Notification from "../ui/notification";
+import { MessageType } from "@/pages/api/contact";
 import classes from "./contact-form.module.css";
+
+const sendContactData = async (contactDetails: MessageType) => {
+  const response = await fetch("/api/contact", {
+    method: "POST",
+    body: JSON.stringify(contactDetails),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Something went wrong!");
+  }
+};
 
 const ContactForm = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const [requestStatus, setRequestStatus] = useState<string | null>(); // pending, success, error
+  const [requestError, setRequestError] = useState<string>("");
 
-  const sendMessageHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (requestStatus === "success" || requestStatus === "error") {
+      const timer = setTimeout(() => {
+        setRequestStatus(null);
+        setRequestError("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [requestStatus]);
+
+  const sendMessageHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newMessage = {
-      email: emailRef.current?.value,
-      name: nameRef.current?.value,
-      message: messageRef.current?.value,
+      email: emailRef.current!.value,
+      name: nameRef.current!.value,
+      message: messageRef.current!.value,
     };
 
-    fetch("/api/contact", {
-      method: "POST",
-      body: JSON.stringify(newMessage),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then;
+    setRequestStatus("pending");
+
+    try {
+      await sendContactData(newMessage);
+      setRequestStatus("success");
+    } catch (err: any) {
+      setRequestError(err.message);
+      setRequestStatus("error");
+    }
   };
 
+  emailRef.current!.value = "";
+  nameRef.current!.value = "";
+  messageRef.current!.value = "";
+
+  let notification;
+
+  if (requestStatus === "pending") {
+    notification = {
+      status: "pending",
+      title: "Sending message...",
+      message: "Your message is on its way.",
+    };
+  }
+  if (requestStatus === "success") {
+    notification = {
+      status: "success",
+      title: "Success!",
+      message: "Message sent successfully.",
+    };
+  }
+  if (requestStatus === "error") {
+    notification = {
+      status: "error",
+      title: "Error!",
+      message: requestError,
+    };
+  }
   return (
     <section className={classes.contact}>
       <h1>How can I help you?</h1>
@@ -47,6 +107,13 @@ const ContactForm = () => {
           <button>Send Message</button>
         </div>
       </form>
+      {notification && (
+        <Notification
+          status={notification.status}
+          title={notification.title}
+          message={notification.message}
+        />
+      )}
     </section>
   );
 };
