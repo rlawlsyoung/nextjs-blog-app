@@ -33,7 +33,7 @@ const PostItem: React.FC<Props> = ({ post }) => {
           />
         </div>
         <div className={classes.content}>
-          <h3>TITLE</h3>
+          <h3>{title}</h3>
           <time>{formattedDate}</time>
           <p>{excerpt}</p>
         </div>
