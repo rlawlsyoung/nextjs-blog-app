@@ -10,7 +10,7 @@ const PostsGrid: React.FC<Props> = ({ posts }) => {
   return (
     <ul className={classes.grid}>
       {posts.map((post: PostType) => (
-        <PostItem key={post.slug} post={post} />
+        <PostItem key={post.slug?.toString()} post={post} />
       ))}
     </ul>
   );
