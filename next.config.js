@@ -12,3 +12,5 @@ const nextConfig = (phase) => {
 };
 
 module.exports = nextConfig;
+
+// 개인 블로그 앱이기 때문에 환경변수를 git ignore에 따로 등록하지 않았습니다.
