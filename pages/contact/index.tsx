@@ -3,6 +3,8 @@ import Head from "next/head";
 import ContactForm from "@/components/contact/contact-form";
 
 const ContactPage = () => {
+  console.log(process.env.mongodb_username);
+
   return (
     <>
       <Head>
